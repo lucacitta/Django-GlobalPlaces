@@ -1,11 +1,10 @@
 from rest_framework import serializers
 
-from django.conf import settings
+from django_global_places.app_settings import api_settings as settings
+from django_global_places import models
 
-from platform_configurations import models
 
-
-if settings.INCLUDE_LOCATION:
+if settings.get_user_setting('INCLUDE_LOCATION'):
 
     if models.get_abstract_city_model():
         class CitySerializer(serializers.ModelSerializer):
@@ -20,4 +19,4 @@ if settings.INCLUDE_LOCATION:
 
             class Meta:
                 model = models.City
-                fields = ("id", "name", "code")
+                fields = ("id", "name",)

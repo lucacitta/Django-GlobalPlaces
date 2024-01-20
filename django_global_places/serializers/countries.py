@@ -1,11 +1,10 @@
 from rest_framework import serializers
 
-from django.conf import settings
+from django_global_places.app_settings import api_settings as settings
+from django_global_places import models
 
-from platform_configurations import models
 
-
-if settings.INCLUDE_LOCATION:
+if settings.get_user_setting('INCLUDE_LOCATION'):
     class CountrySerializer(serializers.ModelSerializer):
         """Serializer for Country model."""
 

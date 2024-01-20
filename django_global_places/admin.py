@@ -1,13 +1,13 @@
 from django.contrib import admin
-from django.conf import settings
 
-from platform_configurations import models
-from django_base.base_utils.utils import (
+from django_global_places import models
+from django_global_places.utils import (
     get_abstract_state_model,
     get_abstract_city_model
 )
+from django_global_places.app_settings import api_settings as settings
 
-if settings.INCLUDE_LOCATION:
+if settings.get_user_setting('INCLUDE_LOCATION'):
 
     @admin.register(models.Country)
     class CountryAdmin(admin.ModelAdmin):

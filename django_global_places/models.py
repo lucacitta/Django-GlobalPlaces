@@ -1,13 +1,11 @@
-from django.conf import settings
-
-from django_base.base_utils.utils import (
+from django_global_places.app_settings import api_settings as settings
+from django_global_places.utils import (
     get_abstract_country_model,
     get_abstract_state_model,
     get_abstract_city_model
 )
 
-
-if settings.INCLUDE_LOCATION:
+if settings.get_user_setting('INCLUDE_LOCATION'):
     class Country(get_abstract_country_model()):
         class Meta:
             verbose_name_plural = "Countries"

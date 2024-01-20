@@ -1,12 +1,11 @@
 from rest_framework import filters as rest_filters
 
-from django.conf import settings
+from django_global_places import models
+from django_global_places.serializers import countries
+from django_global_places.app_settings import api_settings as settings
+from django_global_places.viewsets_utils import BaseReadOnlyModelViewSet
 
-from platform_configurations import models
-from platform_configurations.serializers import countries
-from django_base.base_utils.base_viewsets import BaseReadOnlyModelViewSet
-
-if settings.INCLUDE_LOCATION:
+if settings.get_user_setting('INCLUDE_LOCATION'):
 
     class CountryViewSet(BaseReadOnlyModelViewSet):
         """Viewset for Country model."""

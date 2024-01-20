@@ -9,9 +9,9 @@ from io import StringIO
 import requests
 
 from django.core.management.base import BaseCommand
-from django.conf import settings
 
-from platform_configurations import models 
+from django_global_places.app_settings import api_settings as settings
+from django_global_places import models 
 
 
 class Command(BaseCommand):
@@ -59,13 +59,18 @@ class Command(BaseCommand):
         'autonomous region', 'autonomous community','autonomous region','republic'
         ]
 
-    extra_pos = 1 if settings.LOCATION_SCOPE == 'city' else 0
-    country_extra_pos = (1 if settings.LOCATION_SCOPE == 'country' else 0) + extra_pos
+    extra_pos = 1 \
+        if settings.get_user_setting('LOCATION_SCOPE') == 'city' \
+        else 0
+
+    country_extra_pos = (1 \
+                        if settings.get_user_setting('LOCATION_SCOPE') == 'country' \
+                        else 0) + extra_pos
 
     def _get_data_url(self):
-        if not settings.INCLUDE_LOCATION:
-            raise Exception('Location is not included in settings')
-        return self.data_uls[settings.LOCATION_SCOPE]
+        if not settings.get_user_setting('INCLUDE_LOCATION'):
+            raise Exception('The "INCLUDE_LOCATION" setting must be True to populate location models')
+        return self.data_uls[settings.get_user_setting('LOCATION_SCOPE')]
 
     def _get_data(self):
         response = requests.get(self._get_data_url())
@@ -194,7 +199,7 @@ class Command(BaseCommand):
             models.Country.objects.bulk_update(counties_to_update, fields)
             print('Countries updated')
 
-        if settings.LOCATION_SCOPE != 'country':
+        if settings.get_user_setting('LOCATION_SCOPE') != 'country':
             states_to_create = []
             states_to_update = []
             for item in data.values:
@@ -235,7 +240,7 @@ class Command(BaseCommand):
                 models.State.objects.bulk_update(states_to_update, ['name', 'state_code', 'latitude', 'longitude'])
                 print('States updated')
 
-            if settings.LOCATION_SCOPE == 'city':
+            if settings.get_user_setting('LOCATION_SCOPE') == 'city':
                 all_cities_to_create = []
                 all_cities_to_update = []
                 for item in data.values:
