@@ -5,9 +5,9 @@ import os
 from setuptools import find_packages, setup
 
 here = os.path.dirname(os.path.abspath(__file__))
-f = open(os.path.join(here, 'README.md'))
-long_description = f.read().strip()
-f.close()
+# f = open(os.path.join(here, 'README.md'))
+# long_description = f.read().strip()
+# f.close()
 
 
 about = {}
@@ -23,7 +23,7 @@ setup(
     description='Django Global Places is a simple Django app to provide a model for global places.',
     license='MIT',
     packages=find_packages(),
-    long_description=long_description,
+    # long_description=long_description,
     long_description_content_type='text/markdown',
     keywords='django global places',
     zip_safe=False,
