@@ -11,24 +11,24 @@ f.close()
 
 
 about = {}
-with open('dj_rest_auth/__version__.py', 'r', encoding="utf8") as f:
+with open('django_global_places/__version__.py', 'r', encoding="utf8") as f:
     exec(f.read(), about)
 
 setup(
-    name='dj-rest-auth',
+    name='Django Global Places',
     version=about['__version__'],
-    author='iMerica',
-    author_email='imichael@pm.me',
-    url='http://github.com/iMerica/dj-rest-auth',
-    description='Authentication and Registration in Django Rest Framework',
+    author='lucacitta',
+    author_email='lucacitta.dev@gmail.com',
+    url='https://github.com/lucacitta/Django-GlobalPlaces',
+    description='Django Global Places is a simple Django app to provide a model for global places.',
     license='MIT',
     packages=find_packages(),
     long_description=long_description,
     long_description_content_type='text/markdown',
-    keywords='django rest auth registration rest-framework django-registration api',
+    keywords='django global places',
     zip_safe=False,
     install_requires=[
-        'Django>=3.2',
+        'Django>=3.8.0',
         'djangorestframework>=3.13.0',
     ],
     extras_require={
@@ -39,11 +39,10 @@ setup(
         'django-allauth>=0.57.0',
         'djangorestframework-simplejwt==4.6.0',
         'responses==0.12.1',
-        'unittest-xml-reporting==3.0.4',
+        'unittest-xml-reporting==3.6.1',
     ],
-    test_suite='runtests.runtests',
     include_package_data=True,
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     classifiers=[
         'Framework :: Django',
         'Intended Audience :: Developers',
