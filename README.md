@@ -7,6 +7,9 @@ Plug and play configurations and data for countries, states and cities from all 
 - Python >= 3.8 *
 - Django Rest Framework >=  3.13 *
 	- This requirement is only necessary if you are using the provided REST endpoints.
+- django-filter >= 23.0 *
+	- This requirement is only necessary if you are using the provided REST endpoints.
+
 
 (*) Not tested with earlier versions.
 
@@ -21,8 +24,9 @@ Add `django_global_places` app to INSTALLED_APPS in your django settings.py:
 ```python
 INSTALLED_APPS = (
     ...,
-    'rest_framework',
+    "django.contrib.staticfiles",
     'django_global_places'
+    'rest_framework', # required only if using the provided REST endpoints
      ...,
 )
 ```
@@ -51,7 +55,7 @@ Example:
     GLOBAL_PLACES = {
 	    "INCLUDE_LOCATION": True,
 	    "LOCATION_SCOPE": "state",
-	    "INCLUDE_EXPANDED_COUNTRY": False),
+	    "INCLUDE_EXPANDED_COUNTRY": False,
     }
 
 
