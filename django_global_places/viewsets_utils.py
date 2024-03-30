@@ -27,6 +27,7 @@ class ViewSetSerializerMixin:
     def get_serializer_class(self, *args, **kwargs):
         return self.serializers.get(self.action, None)
 
+
 class BaseReadOnlyModelViewSet(
     ViewSetPermissionMixin,
     ViewSetSerializerMixin,
