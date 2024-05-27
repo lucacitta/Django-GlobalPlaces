@@ -17,12 +17,10 @@ from django_global_places import models
 class Command(BaseCommand):
     """Django command to populate location models."""
 
-    base_data_url = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/'
-
     data_uls = {
-        'country':f'{base_data_url}/countries.json',
-        'state':f'{base_data_url}/countries+states.json',
-        'city':f'{base_data_url}/countries+states+cities.json'
+        'country':f'/countries.json',
+        'state':f'/countries+states.json',
+        'city':f'/countries+states+cities.json'
     }
 
     model_creator = {
@@ -67,10 +65,14 @@ class Command(BaseCommand):
                         if settings.get_user_setting('LOCATION_SCOPE') == 'country' \
                         else 0) + extra_pos
 
+    def _get_base_data_urls(self):
+        self.base_data_url = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/'
+        self.buenos_aires_data_url = 'https://apis.datos.gob.ar/georef/api/municipios?provincia=06&max=999'
+
     def _get_data_url(self):
         if not settings.get_user_setting('INCLUDE_LOCATION'):
             raise Exception('The "INCLUDE_LOCATION" setting must be True to populate location models')
-        return self.data_uls[settings.get_user_setting('LOCATION_SCOPE')]
+        return self.base_data_url + self.data_uls[settings.get_user_setting('LOCATION_SCOPE')]
 
     def _get_data(self):
         response = requests.get(self._get_data_url())
@@ -153,8 +155,7 @@ class Command(BaseCommand):
         items_to_create.append(item_creator(item, parent))
 
     def _get_buenos_aires_cities(self):
-        url = 'https://apis.datos.gob.ar/georef/api/municipios?provincia=06&max=999'
-        response = requests.get(url)
+        response = requests.get(self.buenos_aires_data_url)
         if response.status_code != 200:
             raise Exception('Error getting data from url')
         response = json.loads(response.text)
@@ -172,6 +173,7 @@ class Command(BaseCommand):
         return cities
 
     def handle(self, *args, **options):
+        self._get_base_data_urls()
         st = time.time()
         """Handle the command."""
         data = self._get_data()
