@@ -63,7 +63,7 @@ GLOBAL_PLACES = {
 }
 ```
 
-Once these variables are configured, your next steps are to run `makemigrations` and `migrate`.
+Once these variables are configured, your next steps are to run django `migrate` command.
 
 To **populate** the newly created models, you should execute a Django command. This command will create all the necessary objects and update them if they already exist.
 
