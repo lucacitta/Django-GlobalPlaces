@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
 from django_global_places.app_settings import api_settings as settings
-from django_global_places.utils import get_abstract_city_model
+from django_global_places.utils import get_abstract_city_model, use_default_city_model
 from django_global_places import models
 
 
-if settings.get_user_setting('INCLUDE_LOCATION'):
+if settings.get_user_setting('INCLUDE_LOCATION') and use_default_city_model():
 
     if get_abstract_city_model():
         class CitySerializer(serializers.ModelSerializer):

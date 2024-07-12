@@ -6,9 +6,9 @@ from django_global_places import models
 from django_global_places.serializers import cities
 from django_global_places.app_settings import api_settings as settings
 from django_global_places.viewsets_utils import BaseReadOnlyModelViewSet
-from django_global_places.utils import get_abstract_city_model
+from django_global_places.utils import use_default_city_model
 
-if settings.get_user_setting('INCLUDE_LOCATION') and get_abstract_city_model():
+if settings.get_user_setting('INCLUDE_LOCATION') and use_default_city_model():
         class CityViewSet(BaseReadOnlyModelViewSet):
             """Viewset for City model."""
 

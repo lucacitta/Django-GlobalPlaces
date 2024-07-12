@@ -6,6 +6,9 @@ DEFAULTS = {
     'INCLUDE_LOCATION': True,
     'LOCATION_SCOPE': 'country', 
     'INCLUDE_EXPANDED_COUNTRY': True,
+    'COUNTRY_MODEL': 'django_global_places.Country',
+    'STATE_MODEL': 'django_global_places.State',
+    'CITY_MODEL': 'django_global_places.City',
 }
 
 class APISettings:
@@ -22,6 +25,11 @@ class APISettings:
             if setting == 'LOCATION_SCOPE' and user_settings[setting] not in ['country', 'state', 'city']:
                 raise RuntimeError(f"The {setting} setting must be one of ['country', 'state', 'city'].")
 
+        models = ['COUNTRY_MODEL', 'STATE_MODEL', 'CITY_MODEL']
+        for model in models:
+            if model not in user_settings:
+                user_settings[model] = self.defaults[model]
+
         return user_settings
 
     def get_user_setting(self, attr):
@@ -32,5 +40,3 @@ class APISettings:
 
 
 api_settings = APISettings(USER_SETTINGS, DEFAULTS)
-
-

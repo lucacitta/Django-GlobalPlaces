@@ -9,9 +9,9 @@ from io import StringIO
 import requests
 
 from django.core.management.base import BaseCommand
+from django.apps import apps
 
 from django_global_places.app_settings import api_settings as settings
-from django_global_places import models 
 
 
 class Command(BaseCommand):
@@ -82,7 +82,7 @@ class Command(BaseCommand):
         return data
 
     def _get_all_countries(self):
-        return models.Country.objects.prefetch_related(
+        return self.contry_model.objects.prefetch_related(
                 *self.related['country']
             ).all()
 
@@ -119,7 +119,7 @@ class Command(BaseCommand):
             'latitude': item[18 + self.country_extra_pos],
             'longitude': item[19 + self.country_extra_pos],
         }
-        if "AbstactExpandedCountry" == models.Country.__bases__[0].__name__:
+        if "AbstactExpandedCountry" == self.contry_model.__bases__[0].__name__:
             base_model_fields.update({
                 'iso2': item[2 + self.country_extra_pos],
                 'numeric_code': item[3 + self.country_extra_pos],
@@ -129,10 +129,10 @@ class Command(BaseCommand):
                 'currency_symbol': item[9 + self.country_extra_pos]
             })
 
-        return models.Country(**base_model_fields)
+        return self.contry_model(**base_model_fields)
 
     def _create_state_object(self, item, country):
-        return models.State(
+        return self.state_model(
             json_id=item['id'],
             name=item['name'],
             state_code=item['state_code'],
@@ -142,7 +142,7 @@ class Command(BaseCommand):
         )
 
     def _create_city_object(self, item, state):
-        return models.City(
+        return self.city_model(
             json_id=item['id'],
             name=item['name'],
             latitude=item['latitude'],
@@ -178,6 +178,10 @@ class Command(BaseCommand):
         """Handle the command."""
         data = self._get_data()
 
+        self.contry_model = apps.get_model(settings.get_user_setting('COUNTRY_MODEL'))
+        self.state_model = apps.get_model(settings.get_user_setting('STATE_MODEL'))
+        self.city_model = apps.get_model(settings.get_user_setting('CITY_MODEL'))
+
         all_countries = self._get_all_countries()
         all_countries_names = all_countries.values_list('name', flat=True)
         counties_to_create = []
@@ -191,14 +195,14 @@ class Command(BaseCommand):
 
         if counties_to_create:
             print(f'Creating countries {len(counties_to_create)}')
-            models.Country.objects.bulk_create(counties_to_create)
+            self.contry_model.objects.bulk_create(counties_to_create)
             print('Countries created')
         if counties_to_update:
             fields = self.extended_country_fields if \
-                    "AbstactExpandedCountry" == models.Country.__bases__[0].__name__ \
+                    "AbstactExpandedCountry" == self.contry_model.__bases__[0].__name__ \
                     else self.base_country_fields
             print(f'Updating countries {len(counties_to_update)}')
-            models.Country.objects.bulk_update(counties_to_update, fields)
+            self.contry_model.objects.bulk_update(counties_to_update, fields)
             print('Countries updated')
 
         if settings.get_user_setting('LOCATION_SCOPE') != 'country':
@@ -232,14 +236,14 @@ class Command(BaseCommand):
             if states_to_create:
                 print(f'Creating states {len(states_to_create)}')
                 try:
-                    models.State.objects.bulk_create(states_to_create)
+                    self.state_model.objects.bulk_create(states_to_create)
                     print('States created')
                 except Exception as e:
                     print(e)
                     raise e
             if states_to_update:
                 print(f'Updating states {len(states_to_update)}')
-                models.State.objects.bulk_update(states_to_update, ['name', 'state_code', 'latitude', 'longitude'])
+                self.state_model.objects.bulk_update(states_to_update, ['name', 'state_code', 'latitude', 'longitude'])
                 print('States updated')
 
             if settings.get_user_setting('LOCATION_SCOPE') == 'city':
@@ -280,12 +284,12 @@ class Command(BaseCommand):
 
                 if all_cities_to_create:
                     print(f'Creating cities {len(all_cities_to_create)}')
-                    models.City.objects.bulk_create(all_cities_to_create)
+                    self.city_model.objects.bulk_create(all_cities_to_create)
                     print('Cities created')
 
                 if all_cities_to_update:
                     print(f'Updating cities {len(all_cities_to_update)}')
-                    models.City.objects.bulk_update(all_cities_to_update, ['name', 'latitude', 'longitude'])
+                    self.city_model.objects.bulk_update(all_cities_to_update, ['name', 'latitude', 'longitude'])
                     print('Cities updated')
 
         # get the end time
