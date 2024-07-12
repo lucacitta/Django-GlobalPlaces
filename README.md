@@ -43,7 +43,7 @@ This library handles the configuration and creation of `Countries`, `States`, an
 After installation, you need to specify three parameters in your `settings.py` file:
 
 -  `INCLUDE_LOCATION`: Enables the creation of the models.
--  `LOCATION_SCOPE`: Determines the scope of models required ('countries', 'states', or 'cities').
+-  `LOCATION_SCOPE`: Determines the scope of models required ('country', 'state', or 'city').
 -  `INCLUDE_EXPANDED_COUNTRY`: Incorporates additional fields into the Country model.
 
 And you have this 3 optional extra parameters:
