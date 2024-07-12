@@ -54,7 +54,8 @@ class Command(BaseCommand):
     approved_state_types = [
         'state','province', 'metropolitan region', 'Region', 'region', None,
         'territory','canton','department','federal district','capital city',
-        'autonomous region', 'autonomous community','autonomous region','republic'
+        'autonomous region', 'autonomous community','autonomous region','republic',
+        'Union territory'
         ]
 
     extra_pos = 1 \
