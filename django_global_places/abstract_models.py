@@ -43,7 +43,7 @@ class AbstractState(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
-    country = models.ForeignKey(settings.get_user_setting('COUNTRY_MODEL'), on_delete=models.CASCADE, related_name='states')
+    country = models.ForeignKey('django_global_places.Country', on_delete=models.CASCADE, related_name='states')
     class Meta:
         abstract = True
 
@@ -58,8 +58,7 @@ class AbstractCity(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
-    state = models.ForeignKey(settings.get_user_setting('STATE_MODEL'), on_delete=models.CASCADE, related_name='cities')
-
+    state = models.ForeignKey('django_global_places.State', on_delete=models.CASCADE, related_name='cities')
     class Meta:
         abstract = True
 

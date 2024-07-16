@@ -12,97 +12,88 @@ class Migration(migrations.Migration):
 
     dependencies = []
 
-    if all(
-        [
-            settings.get_user_setting("COUNTRY_MODEL") == "django_global_places.models.Country",
-            settings.get_user_setting("STATE_MODEL") == "django_global_places.models.State",
-            settings.get_user_setting("CITY_MODEL") == "django_global_places.models.City",
-        ]
-    ):
-        operations = [
-            migrations.CreateModel(
-                name="Country",
-                fields=[
-                    (
-                        "id",
-                        models.BigAutoField(
-                            auto_created=True,
-                            primary_key=True,
-                            serialize=False,
-                            verbose_name="ID",
-                        ),
+    operations = [
+        migrations.CreateModel(
+            name="Country",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
                     ),
-                    ("name", models.CharField(max_length=100, unique=True)),
-                    ("iso3", models.CharField(max_length=3)),
-                    ("latitude", models.FloatField()),
-                    ("longitude", models.FloatField()),
-                    ("is_active", models.BooleanField(default=True)),
-                ],
-                options={
-                    "verbose_name_plural": "Countries",
-                },
-            ),
-            migrations.CreateModel(
-                name="State",
-                fields=[
-                    (
-                        "id",
-                        models.BigAutoField(
-                            auto_created=True,
-                            primary_key=True,
-                            serialize=False,
-                            verbose_name="ID",
-                        ),
+                ),
+                ("name", models.CharField(max_length=100, unique=True)),
+                ("iso3", models.CharField(max_length=3)),
+                ("latitude", models.FloatField()),
+                ("longitude", models.FloatField()),
+                ("is_active", models.BooleanField(default=True)),
+            ],
+            options={
+                "verbose_name_plural": "Countries",
+            },
+        ),
+        migrations.CreateModel(
+            name="State",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
                     ),
-                    ("json_id", models.IntegerField()),
-                    ("name", models.CharField(max_length=100)),
-                    ("state_code", models.CharField(max_length=5)),
-                    ("latitude", models.FloatField(blank=True, null=True)),
-                    ("longitude", models.FloatField(blank=True, null=True)),
-                    ("is_active", models.BooleanField(default=True)),
-                    (
-                        "country",
-                        models.ForeignKey(
-                            on_delete=django.db.models.deletion.CASCADE,
-                            related_name="states",
-                            to="django_global_places.country",
-                        ),
+                ),
+                ("json_id", models.IntegerField()),
+                ("name", models.CharField(max_length=100)),
+                ("state_code", models.CharField(max_length=5)),
+                ("latitude", models.FloatField(blank=True, null=True)),
+                ("longitude", models.FloatField(blank=True, null=True)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "country",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="states",
+                        to="django_global_places.country",
                     ),
-                ],
-                options={
-                    "verbose_name_plural": "States",
-                },
-            ),
-            migrations.CreateModel(
-                name="City",
-                fields=[
-                    (
-                        "id",
-                        models.BigAutoField(
-                            auto_created=True,
-                            primary_key=True,
-                            serialize=False,
-                            verbose_name="ID",
-                        ),
+                ),
+            ],
+            options={
+                "verbose_name_plural": "States",
+            },
+        ),
+        migrations.CreateModel(
+            name="City",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
                     ),
-                    ("json_id", models.IntegerField()),
-                    ("name", models.CharField(max_length=100)),
-                    ("latitude", models.FloatField(blank=True, null=True)),
-                    ("longitude", models.FloatField(blank=True, null=True)),
-                    ("is_active", models.BooleanField(default=True)),
-                    (
-                        "state",
-                        models.ForeignKey(
-                            on_delete=django.db.models.deletion.CASCADE,
-                            related_name="cities",
-                            to="django_global_places.state",
-                        ),
+                ),
+                ("json_id", models.IntegerField()),
+                ("name", models.CharField(max_length=100)),
+                ("latitude", models.FloatField(blank=True, null=True)),
+                ("longitude", models.FloatField(blank=True, null=True)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "state",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="cities",
+                        to="django_global_places.state",
                     ),
-                ],
-                options={
-                    "verbose_name_plural": "Cities",
-                },
-            ),
-        ]
-    else:
-        operations = []
+                ),
+            ],
+            options={
+                "verbose_name_plural": "Cities",
+            },
+        ),
+    ]

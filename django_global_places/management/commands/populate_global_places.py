@@ -180,8 +180,7 @@ class Command(BaseCommand):
         data = self._get_data()
 
         self.contry_model = apps.get_model(settings.get_user_setting('COUNTRY_MODEL'))
-        self.state_model = apps.get_model(settings.get_user_setting('STATE_MODEL'))
-        self.city_model = apps.get_model(settings.get_user_setting('CITY_MODEL'))
+
 
         all_countries = self._get_all_countries()
         all_countries_names = all_countries.values_list('name', flat=True)
@@ -207,6 +206,7 @@ class Command(BaseCommand):
             print('Countries updated')
 
         if settings.get_user_setting('LOCATION_SCOPE') != 'country':
+            self.state_model = apps.get_model(settings.get_user_setting('STATE_MODEL'))
             states_to_create = []
             states_to_update = []
             for item in data.values:
@@ -248,6 +248,7 @@ class Command(BaseCommand):
                 print('States updated')
 
             if settings.get_user_setting('LOCATION_SCOPE') == 'city':
+                self.city_model = apps.get_model(settings.get_user_setting('CITY_MODEL'))
                 all_cities_to_create = []
                 all_cities_to_update = []
                 for item in data.values:
