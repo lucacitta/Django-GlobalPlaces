@@ -67,7 +67,9 @@ Once these variables are configured, your next steps are to run django `migrate`
 
 To **populate** the newly created models, you should execute a Django command. This command will create all the necessary objects and update them if they already exist.
 
+```
 python manage.py populate_global_places
+```
 
 ### Rest endpoints
 
