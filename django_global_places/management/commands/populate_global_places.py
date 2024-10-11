@@ -18,9 +18,9 @@ class Command(BaseCommand):
     """Django command to populate location models."""
 
     data_uls = {
-        'country':f'/countries.json',
-        'state':f'/countries+states.json',
-        'city':f'/countries+states+cities.json'
+        'country':f'/json/countries.json',
+        'state':f'/json/countries+states.json',
+        'city':f'/json/countries+states+cities.json'
     }
 
     model_creator = {
