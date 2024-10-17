@@ -11,6 +11,7 @@ DEFAULTS = {
     'CITY_MODEL': 'django_global_places.City',
 }
 
+
 class APISettings:
     def __init__(self, user_settings=None, defaults=None):
         self.defaults = defaults
