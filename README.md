@@ -16,7 +16,7 @@ Plug and play configurations and data for countries, states and cities from all 
 (*) Last tested versions
 	- Django==5.1.1
 	- Python==3.10.9
-	- Django Rest Framework==3.15.2
+	- djangorestframework==3.15.2
 	- django-filter==24.3
 	- pytest-django==4.9.0
 	- factory_boy==3.3.1
