@@ -8,8 +8,19 @@ Plug and play configurations and data for countries, states and cities from all 
 	- This requirement is only necessary if you are using the provided REST endpoints.
 - django-filter >= 23.0 *
 	- This requirement is only necessary if you are using the provided REST endpoints.
+- pytest-django >= 4.0 *
+	- This requirement is only necessary if you are running the tests and use Django Rest Framework.
+- factory_boy >= 3.0 *
+	- This requirement is only necessary if you are running the tests and use Django Rest Framework.
 
-(*) Not tested with earlier versions.
+(*) Last tested versions
+	- Django==5.1.1
+	- Python==3.10.9
+	- djangorestframework==3.15.2
+	- django-filter==24.3
+	- pytest-django==4.9.0
+	- factory_boy==3.3.1
+
 
 ## Quick Setup
 
@@ -97,6 +108,14 @@ A detail view presenting comprehensive information about each object.
 
 Full examples [here](https://www.postman.com/restless-zodiac-765340/workspace/django-globalplaces/collection/18007906-46245b57-0675-4bfb-ae41-c71ee6f6f6f5?action=share&creator=18007906) in Postman collection.
 
+### Tests
+
+To run the tests, you need to have the `pytest-django` and `factory_boy` packages installed. You can run the tests with the following command:
+
+```
+pytest
+```
+
 ### Using custom models
 
 The library allows the use of customized models in case additional fields need to be added to the existing models.
@@ -114,5 +133,7 @@ Special thanks to the [Countries States Cities Database](https://github.com/dr5h
 - [Luca Cittá Giordano](https://www.linkedin.com/in/lucacittagiordano/)
 
 - [Matias Girardi](https://www.linkedin.com/in/matiasgirardi)
+
+- [Juan Ignacio Borrelli](https://www.linkedin.com/in/juan-ignacio-borrelli/)
 
 Maintained and developed by [Linkchar Software Development](https://linkchar.com/).
