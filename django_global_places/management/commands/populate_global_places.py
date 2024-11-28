@@ -67,16 +67,20 @@ class Command(BaseCommand):
                         else 0) + extra_pos
 
     def _get_base_data_urls(self):
-        self.base_data_url = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/'
+        self.base_data_url = 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json'
+        self.backup_data_url = 'https://luca-bucket-for-things.s3.us-west-1.amazonaws.com/django-global-places'
         self.buenos_aires_data_url = 'https://apis.datos.gob.ar/georef/api/municipios?provincia=06&max=999'
 
-    def _get_data_url(self):
+
+    def _get_data_url(self, backup):
         if not settings.get_user_setting('INCLUDE_LOCATION'):
             raise Exception('The "INCLUDE_LOCATION" setting must be True to populate location models')
-        return self.base_data_url + self.data_uls[settings.get_user_setting('LOCATION_SCOPE')]
+        return self.base_data_url + self.data_uls[settings.get_user_setting('LOCATION_SCOPE')] if \
+                not backup else \
+                self.backup_data_url + self.data_uls[settings.get_user_setting('LOCATION_SCOPE')]
 
-    def _get_data(self):
-        response = requests.get(self._get_data_url())
+    def _get_data(self, backup=False):
+        response = requests.get(self._get_data_url(backup=backup))
         if response.status_code != 200:
             raise Exception('Error getting data from url')
         data = pd.read_json(StringIO(response.text))
@@ -177,7 +181,11 @@ class Command(BaseCommand):
         self._get_base_data_urls()
         st = time.time()
         """Handle the command."""
-        data = self._get_data()
+        try:
+            data = self._get_data()
+        except Exception as e:
+            print('Error getting data from url, trying for backup url')
+            data = self._get_data(backup=True)
 
         self.contry_model = apps.get_model(settings.get_user_setting('COUNTRY_MODEL'))
 
