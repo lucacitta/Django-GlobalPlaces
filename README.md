@@ -130,6 +130,15 @@ Special thanks to the [Countries States Cities Database](https://github.com/dr5h
 
 ## Contributing
 
+```
+django-admin <command> --settings=test_settings
+```
+
+Where `<command>` can be any of the registered commands, such as `makemigrations`, `migrate`, `populate_global_place`, etc.
+
+## Contributors
+
+
 - [Luca Cittá Giordano](https://www.linkedin.com/in/lucacittagiordano/)
 
 - [Matias Girardi](https://www.linkedin.com/in/matiasgirardi)
