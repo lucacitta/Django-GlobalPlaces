@@ -38,7 +38,7 @@ class AbstactExpandedCountry(AbstactCountry):
 class AbstractState(models.Model):
     json_id = models.IntegerField()
     name = models.CharField(max_length=100)
-    state_code = models.CharField(max_length=5)
+    state_code = models.CharField(max_length=5, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
