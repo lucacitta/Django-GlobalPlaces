@@ -130,6 +130,41 @@ Special thanks to the [Countries States Cities Database](https://github.com/dr5h
 
 ## Contributing
 
+Create a virtual env, activate it, and then run:
+
+```
+python setup.py develop
+```
+
+This will install all the required libraries specified in `setup.py`.
+
+
+### Running django commands
+
+To run any django command without placing the library files in another django project, it is possible to run the following:
+
+```
+django-admin <command> --settings=test_settings
+```
+
+Where `<command>` can be any of the registered commands, such as `makemigrations`, `migrate`, `populate_global_place`, etc.
+
+#### django-admin troubleshooting
+
+If `django-admin` executable points to a global installation (`which django-admin` points to `/usr/local/bin/django-admin`) and not to the local virtual env one, just replace `django-admin` with the location of the venv executable, ex: `./venv/bin/django-admin`.
+
+### Installing the library in a venv
+
+To install the library in any other virtual env, first activate it, and then run the following command in this projects root (where `setup.py` is located):
+
+```
+pip install -e .
+```
+
+
+## Contributors
+
+
 - [Luca Cittá Giordano](https://www.linkedin.com/in/lucacittagiordano/)
 
 - [Matias Girardi](https://www.linkedin.com/in/matiasgirardi)
